@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,12 +6,16 @@ import { Injectable } from '@angular/core';
 })
 export class GifsService {
 
+  private apiKeyGifs: string = 'O4DRR1r5NXqj6kixAqoG96d0RZZC4Zcz';
+  private limitGifs: number = 15;
   private _historial: string[] = [];
 
   get historial() { 
     //Tambien funciona retorando solo "this._historial" pero de esta manera es mas seguro
     return [...this._historial]; 
   }
+
+  constructor( private http: HttpClient ) {}
 
   buscarGifs( query: string ) {
     query = query.trim().toLowerCase();
@@ -20,7 +25,12 @@ export class GifsService {
       //Esto cortara el arreglo, solo dejara tener 10
       this._historial = this._historial.splice(0,10);
     }
-    console.log(this._historial);
+    
+    this.http.get( `https://api.giphy.com/v1/gifs/search?api_key=O4DRR1r5NXqj6kixAqoG96d0RZZC4Zcz&q=${query}&limit=${this.limitGifs} `)
+    .subscribe( ( res: any ) => {
+      console.log("Respuesta de peticion get ", res.data);
+    });
+
   }
 
 }
