@@ -23,6 +23,9 @@ export class GifsService {
     if( localStorage.getItem('historial') ) {
       this._historial = JSON.parse( localStorage.getItem('historial')! );
     }
+    if( localStorage.getItem('resultados') ) {
+      this.resultados = JSON.parse( localStorage.getItem('resultados')!);
+    }
   }
 
   buscarGifs( query: string ) {
@@ -38,9 +41,8 @@ export class GifsService {
     
     this.http.get<SearchGifsResponse>( `https://api.giphy.com/v1/gifs/search?api_key=O4DRR1r5NXqj6kixAqoG96d0RZZC4Zcz&q=${query}&limit=${this.limitGifs} `)
     .subscribe( res => {
- 
       this.resultados = res.data;
-
+      localStorage.setItem('resultados', JSON.stringify( this.resultados ));
     });
 
   }
