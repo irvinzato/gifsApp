@@ -10,6 +10,8 @@ export class GifsService {
   private limitGifs: number = 15;
   private _historial: string[] = [];
 
+  public resultados: any[] = [];
+
   get historial() { 
     //Tambien funciona retorando solo "this._historial" pero de esta manera es mas seguro
     return [...this._historial]; 
@@ -29,6 +31,8 @@ export class GifsService {
     this.http.get( `https://api.giphy.com/v1/gifs/search?api_key=O4DRR1r5NXqj6kixAqoG96d0RZZC4Zcz&q=${query}&limit=${this.limitGifs} `)
     .subscribe( ( res: any ) => {
       console.log("Respuesta de peticion get ", res.data);
+      this.resultados = res.data;
+      console.log("Arreglo de resultados ", this.resultados);
     });
 
   }
